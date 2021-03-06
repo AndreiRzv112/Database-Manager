@@ -12,4 +12,4 @@ db.create(name="database_name", dir="database_folder")
 ```
 
 ### Unfinished
-At this moment this tool is not finished and it needs a lot of work
+At this moment this tool is not finished and it needs a lot of work.
