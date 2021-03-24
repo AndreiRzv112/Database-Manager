@@ -1,6 +1,5 @@
 import sqlite3, os, sys
 from itertools import zip_longest
-import typing
 import db_error
 import functions as func
 
