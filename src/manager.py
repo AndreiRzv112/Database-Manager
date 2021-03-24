@@ -44,11 +44,11 @@ class database:
         os.remove(db_path)
 
 class table:
-    def create(self, table_name:str=None, column:list=[], val:list=[], db_name:str=None, db_dir:str=None):
+    def create(self, table_name:str, column:list=[], val:list=[], db_name:str=None, db_dir:str=None):
         if isinstance(db_name, str) and isinstance(table_name, str):
             db_name = db_name.split(".")[0]
         else:
-            raise db_error.InvalidArgs("Name needs to be a string.")
+            raise db_error.InvalidArgs("Names needs to be a string.")
         if not isinstance(column, list):
             raise db_error.InvalidArgs("| column | needs to be a list.")
         if not isinstance(val, list):
@@ -75,5 +75,16 @@ class table:
                 else:
                     break
             sql_text = sql_text[:-2]
-            c.execute(f"CREATE TABLE {table_name}({sql_text})")
+            c.execute(f"CREATE TABLE {table_name.lower()}({sql_text})")
+            db.commit()
+    
+    def delete(self, table_name:str=None, db_name:str=None, db_dir:str=None):
+        if isinstance(db_name, str) and isinstance(table_name, str):
+            db_name = db_name.split(".")[0]
+        else:
+            raise db_error.InvalidArgs("Names needs to be a string.")
+        db_path = func.FileDir(self, name=db_name, dir=db_dir)
+        with sqlite3.connect(db_path) as db:
+            c = db.cursor()
+            c.execute(f"DROP TABLE {table_name.lower()}")
             db.commit()
